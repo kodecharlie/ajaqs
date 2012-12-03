@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<!-- We specify the media type as text/html because the media
+     type for XHTML is still not well defined.  To make the
+     XHTML backwards compatible with HTML, we follow guidelines
+     at: http://www.w3.org/TR/xhtml1/#guidelines 
+  -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Download FAQ</title>
+<link type="text/css" rel="stylesheet" href="faqstyle.css" />
+</head>
+<body>
+
+<form action="download.html">
+<center>
+<!-- use width only for Netscape 4.7 -->
+<table class="main" width="80%"
+       summary="Download instructions"
+       border="0" cellspacing="0">
+  <tr class="banner"><td height="80" colspan="3">
+        <p class="title">Download WebKiosk FAQs</p></td></tr>
+  <tr><td colspan="3"><hr /></td></tr>
+  <tr><td><b>Note:</b>  This operation allows you to download
+        a project's FAQs either as a PDF file or a plain text
+        document.  Please be advised that the file you download
+        may not contain the most recent additions to the FAQ.
+        The PDF and plain text files are updated on a weekly
+        basis; hence, discrepancies are possible.</td></tr>
+  <tr><td colspan="3"><hr /></td></tr>
+  <tr><td colspan="3" align="center">
+        <table summary="File type and name of FAQ"
+               border="0" cellpadding="3" cellspacing="15">
+          <tr>
+            <th align="right">
+                <!-- We do not associate the label with either radiobutton
+                     because user agents might then automatically choose
+                     that button. -->
+                <label>File type:</label>
+            </th>
+            <td>
+              <input checked="checked" type="radio" name="filetype"
+                     value="PDF" />PDF&nbsp;
+              <input type="radio" name="filetype"
+                     value="plaintext" />Plain Text
+            </td>
+          </tr>
+          <tr>
+            <th align="right">
+              <label for="selfaq">Choose FAQ:</label></th>
+            <td>
+              <select name="faqname" id="selfaq">
+              <option value="All">All WebKiosk FAQs</option>
+              <option value="Origins">Origins</option>
+              <option value="Software Requirements">Software Requirements</option>
+              <option value="End-user Help">End-user Help</option>
+             </select>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <th align="left">
+              <input type="submit" value="Download FAQ" />
+            </th>
+          </tr>
+        </table>
+      </td>
+  </tr>
+</table>
+</center>
+</form>
+
+</body>
+</html>

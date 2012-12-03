@@ -1,0 +1,100 @@
+/*
+ * search.css - styles for search.jsp
+ */
+
+/* This style encompasses the complete banner area. */
+.searchbanner {
+  background-color: #cccccc;
+  border: solid;
+  border-width: thin;
+  margin-top: 0px;
+  margin-bottom: 1px;
+  width: 100%;
+}
+
+/*
+ * This style is essentially the same as the .banner style defined
+ * in common.css, but specializes certain properties for search.jsp.
+ * In particular, there is no border.
+ */
+.searchtitle {
+  background-color: #cccccc;
+  font-family: arial, sans-serif;
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-width: 0px;
+}
+
+/*
+ * This style is essentially the same as the .subtitle style defined
+ * in common.css, but specializes certain properties for search.jsp.
+ */
+.searchsubtitle {
+  font-family: arial, sans-serif;
+  font-size: 0.75em;
+  font-weight: bold;
+  width: 100%;
+}
+
+/* Describes text appearing at the left of the subtitle. */
+.lefttitle {
+  text-align: left;
+}
+
+/* Describes text appearing at the right of the subtitle. */
+.righttitle {
+  text-align: right;
+}
+
+/*
+ * Used to render words used in search.
+ * The font-size is inherited by the enclosing element.
+ */
+.searchword {
+  font-family: arial, sans-serif;
+  font-weight: bold;
+  background-color: #ffff00;
+}
+
+/* Used to render content shown under search result. */
+.searchresult {
+  font-family: arial, sans-serif;
+  font-size: 1.0em;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+/* Used to render questions. */
+.question {
+  font-size: 1.1em;
+}
+
+/* Used to render block of text that contains matching keywords. */
+.searchmatch {
+  font-size: 0.9em;
+}
+
+/*
+ * Used to render informative block that appears beneath matching
+ * block of text.
+ */
+.infoblock {
+  font-family: arial, sans-serif;
+  font-size: 0.75em;
+  margin-top: 2px;
+  margin-bottom: 15px;
+}
+
+/* Used to render path to FAQ listed under search. */
+.searchpath {
+  color: #339900;
+}
+
+/* Used to render other information associated with a search result. */
+.searchinfo {
+}

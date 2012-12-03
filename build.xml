@@ -1,0 +1,421 @@
+<!--##########################################################-->
+<!-- build.xml                                                -->
+<!--                                                          -->
+<!-- Run the command 'ant -projecthelp' to see which targets  -->
+<!-- you can invoke from the command-line.                    -->
+<!--##########################################################-->
+
+<project name="ajaqs" default="all" basedir=".">
+    <description>
+      This is the build-file for Ajaqs.
+    </description>
+
+  <!-- Set global properties for this build -->
+  <property file="build.properties"/>
+  <property name="build" location="build"/>
+  <property name="debug" value="off"/>
+  <property name="dist" location="dist"/>
+  <property name="doc" location="doc"/>
+  <property name="src" location="src"/>
+  <property name="sql" location="sql"/>
+  <property name="storyboard" location="storyboard"/>
+  <property name="test" location="test"/>
+  <property name="xml" location="xml"/>
+  <property name="unpacked" location="ajaqs"/>
+  <property name="web" location="web"/>
+
+  <!-- Define tasks used for deployment during development -->
+  <taskdef name="install" classname="org.apache.catalina.ant.InstallTask"/>
+  <taskdef name="remove" classname="org.apache.catalina.ant.RemoveTask"/>
+  <taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask"/>
+
+  <!--##########################################################-->
+  <!-- Default target                                           -->
+  <!--##########################################################-->
+
+  <target name="all"
+        description="Recompile everything after cleaning">
+    <antcall target="clean"/>
+    <antcall target="compile"/>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Build Environment and Compilation                        -->
+  <!--##########################################################-->
+
+  <path id="ajaqs.class.path">
+    <pathelement path="${classpath}"/>
+    <fileset dir="${castor.dir}">
+      <include name="**/*.jar"/>
+    </fileset>
+    <pathelement location="${jstl.dir}/jstl.jar"/>
+    <pathelement location="${jstl.dir}/standard.jar"/>
+    <pathelement location="${taglibs.request.dir}/taglibs-request.jar"/>
+    <pathelement location="${servlet.jar}"/>
+    <pathelement location="${jsp.jar}"/>
+    <pathelement location="${log4j.jar}"/>
+    <pathelement location="${multipart.jar}"/>
+    <pathelement location="${web}/WEB-INF/lib/itext-1.3.3.jar"/>
+  </path>
+
+  <target name="init">
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}/WEB-INF/classes"/>
+    <mkdir dir="${build}/META-INF"/>
+    <mkdir dir="${build}/jsp-java"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="Compile the source code">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}/WEB-INF/classes"
+           debug="${debug}" deprecation="on">
+      <classpath refid="ajaqs.class.path"/>
+      <!-- <compilerarg value="-Xlint:unchecked"/> -->
+    </javac>
+  </target>
+
+  <!-- Pre-compile JSPs. -->
+  <target name="jspc" depends="init"
+        description="Pre-compile JSPs">
+    <path id="jspc.classpath">
+      <path refid="ajaqs.class.path"/>
+      <pathelement location="${build}/WEB-INF/classes"/>
+      <fileset dir="${tomcat.home}/common/lib">
+        <include name="**/*.jar"/>
+      </fileset>
+      <fileset dir="${tomcat.home}/bin">
+        <include name="**/*.jar"/>
+      </fileset>
+      <fileset dir="${ant.home}/lib">
+        <include name="**/*.jar"/>
+      </fileset>
+    </path>
+
+    <!-- Use Jasper to compile JSPs. -->
+    <java classname="org.apache.jasper.JspC"
+          classpathref="jspc.classpath"
+          fork="true" failonerror="true">
+        <arg line="-v -d ${build}/jsp-java -webapp ${web} -webinc ${build}/WEB-INF/jspservlets.xml"/>
+    </java>
+
+    <!-- Compile Java code containing JSPs. -->
+    <javac srcdir="${build}/jsp-java"
+           destdir="${build}/WEB-INF/classes"
+           debug="on"
+           classpathref="jspc.classpath"/>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Set up configuration files.                              -->
+  <!--##########################################################-->
+
+  <target name="xmlinit"
+        description="Do token-substitution for XML files">
+    <filter filtersfile="build.properties"/>
+    <copy todir="${build}/WEB-INF/classes/castor" filtering="true">
+      <fileset dir="${xml}/castor" includes="**/*.xml"/>
+    </copy>
+    <copy todir="${build}/WEB-INF" filtering="true">
+      <fileset dir="${web}/WEB-INF" includes="**/web.xml,**/*.tld"/>
+      <filterset begintoken="&lt;" endtoken="&gt;">
+        <filter token="!-- JSP-include-directive --"
+                value="&lt;!DOCTYPE web-app [
+    &lt;!ENTITY jspservlets SYSTEM &quot;jspservlets.xml&quot;&gt;
+]&gt;"/>
+        <filter token="!-- JSP-include-stub --"
+                value="&amp;jspservlets;"/>
+      </filterset>
+    </copy>
+    <copy todir="${build}/META-INF" filtering="true">
+      <fileset dir="${xml}/tomcat" includes="**/context.xml"/>
+    </copy>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Testing.                                                 -->
+  <!--##########################################################-->
+
+  <target name="test" depends="compile,xmlinit"
+        description="Compile source code for tests">
+    <javac srcdir="${test}" destdir="${build}/WEB-INF/classes"
+           debug="${debug}">
+      <classpath>
+        <path refid="ajaqs.class.path"/>
+      </classpath>
+    </javac>
+    <java classname="com.beardediris.ajaqs.db.MappingTest" fork="true">
+      <arg value="${build}/WEB-INF/classes/castor"/>
+      <arg value="${db.ajaqs.name}"/>
+      <classpath>
+        <path refid="ajaqs.class.path"/>
+        <pathelement location="${build}/WEB-INF/classes"/>
+        <pathelement location="${commons.logging.jar}"/>
+        <pathelement location="${xerces.jar}"/>
+      </classpath>
+    </java>
+  </target>
+
+  <!-- Need optional 'xmlvalidate' task for tasks below.           -->
+  <!-- We do not know how to validate the web.xml or TLD files for -->
+  <!-- JSP/JSTL 2.4/2.0.                                           -->
+  <target name="testxml" depends="xmlinit"
+        description="Validate XML files">
+    <xmlvalidate failonerror="no">
+      <fileset dir="${build}/WEB-INF/classes/castor" includes="**/*.xml"/>
+      <!-- <fileset dir="${build}/WEB-INF" includes="**/web.xml,**/*.tld"/> -->
+    </xmlvalidate>
+  </target>
+
+  <target name="teststoryboard"
+        description="Validate HTML files in storyboard">
+    <xmlvalidate failonerror="no">
+      <fileset dir="${storyboard}" includes="**/*.html"/>
+    </xmlvalidate>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Make source-code distribution.                           -->
+  <!--##########################################################-->
+
+  <target name="dist" depends="clean"
+        description="Create the source distribution">
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}"/>
+
+    <!-- Create the time stamp -->
+    <tstamp>
+      <format property="tstamp.now" pattern="MM-dd-yyyy" locale="en"/>
+    </tstamp>
+
+    <!-- Put everything into a zip file.                        -->
+    <!-- Note that we cannot use the ${dist} property in the    -->
+    <!-- excludes attribute so we explicitly identify the dist  -->
+    <!-- directory here.                                        -->
+    <zip destfile="${dist}/ajaqs-src-${tstamp.now}.zip"
+         basedir="${basedir}" update="true"
+         excludes="**/dist,**/dist/**"/>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Make .war file.                                          -->
+  <!--##########################################################-->
+
+  <target name="unwar" depends="war">
+    <unwar src="${build}/ajaqs.war" dest="${unpacked}"/>
+  </target>
+
+  <target name="war" depends="compile,jspc,xmlinit"
+        description="Create .war file for Ajaqs">
+
+    <!-- Remap URIs that point at images, before making war file. -->
+    <copy todir="${build}/doc" overwrite="true">
+      <fileset dir="${doc}" includes="**/*.html"/>
+      <!-- Assume the string '=&quot;images/' only appears in -->
+      <!-- SRC attributes for the IMG element. We could use   -->
+      <!-- the optional replaceregexp task to obtain a more   -->
+      <!-- exact match, but we prefer using a core task       -->
+      <!-- instead.                                           -->
+      <filterset begintoken="=" endtoken="/">
+        <filter token="&quot;images" value="=&quot;/ajaqs/images/"/>
+      </filterset>
+    </copy>
+
+    <!-- Set up log4j.properties -->
+    <copy todir="${build}/WEB-INF/classes" overwrite="true">
+      <filterset>
+        <filter token="ajaqs.log.file" value="${ajaqs.log.file}"/>
+      </filterset>
+      <fileset dir="${web}/WEB-INF/classes" includes="log4j.properties"/>
+    </copy>
+
+    <war destfile="${build}/ajaqs.war" update="overwrite"
+         webxml="${build}/WEB-INF/web.xml">
+      <!-- Webapp context associated with server.xml in Tomcat. -->
+      <metainf dir="${build}/META-INF" includes="**/context.xml"/>
+
+      <!-- CSS files. -->
+      <zipfileset dir="${web}/css" prefix="css"/>
+
+      <!-- Online documentation. -->
+      <zipfileset dir="${build}/doc" includes="**/*.html" prefix="doc"/>
+      <zipfileset dir="${doc}/images" prefix="images"
+                  includes="**/*.png"/>
+
+      <!-- Deployment descriptors for taglibs; JSP servlets add-on. -->
+      <webinf dir="${build}/WEB-INF" includes="**/*.tld,**/jspservlets.xml"/>
+
+      <!-- Configuration properties. -->
+      <zipfileset dir="${web}/WEB-INF/conf"
+                  includes="**/*.properties" prefix="WEB-INF/conf"/>
+
+      <!-- Application code. -->
+      <classes dir="${build}/WEB-INF/classes" excludes="**/*.war,**/*sql"/>
+
+      <!-- Jars used by Ajaqs. -->
+      <lib dir="${web}/WEB-INF/lib" includes="**/*.jar"/>
+      <lib dir="${castor.dir}" includes="**/*.jar"/>
+      <lib dir="${jstl.dir}" includes="**/*.jar"
+        excludes="**/old-dependencies,**/old-dependencies/*"/>
+      <lib dir="${taglibs.request.dir}" includes="**/*.jar"/>
+      <lib dir="${log4j.dir}" includes="**/*.jar"/>
+      <lib dir="${multipart.dir}" includes="**/*.jar"/>
+    </war>
+
+  </target>
+
+  <!--##########################################################-->
+  <!-- Obfuscate bytecode.                                      -->
+  <!--##########################################################-->
+
+  <target name="obfuscate">
+    <taskdef name="obfuscate" 
+        classname="com.yworks.yguard.ObfuscatorTask" 
+        classpath="${obfuscator.jar}"/>
+    <obfuscate logfile="${obfuscator.log}" replaceClassNameStrings="true">
+      <property name="error-checking" value="pedantic"/>
+      <property name="naming-scheme" value="small"/>
+      <expose>
+        <class classes="public"/>
+      </expose>
+      <externalclasses refid="ajaqs.class.path"/>
+      <adjust replaceName="true">
+        <include name="WEB-INF/*.tld"/>
+        <include name="WEB-INF/*.xml"/>
+        <include name="WEB-INF/classes/*.properties"/>
+        <include name="WEB-INF/classes/castor/*.xml"/>
+      </adjust>
+      <inoutpair in="${build}/ajaqs.war" out="${build}/ajaqs-obf.war"/>
+    </obfuscate>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Generate javadocs                                        -->
+  <!--##########################################################-->
+
+  <target name="javadoc"
+        description="Generate javadocs from Ajaqs source code">
+    <javadoc destdir="${build}/doc/api" use="true"
+      windowtitle="Ajaqs Source Documentation">
+
+      <classpath refid="ajaqs.class.path"/>
+
+      <packageset dir="src">
+        <include name="com/beardediris/ajaqs/**"/>
+      </packageset>
+
+      <doctitle>
+        <![CDATA[<h1>Ajaqs Source Documentation</h1>]]>
+      </doctitle>
+
+      <!-- Footer appearing on each page of generated docs. -->
+      <bottom>
+        <![CDATA[<i>Copyright &#169; 2003 Bearded Iris Computing. All Rights Reserved.</i>]]>
+      </bottom>
+    </javadoc>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Database Setup                                           -->
+  <!--##########################################################-->
+
+  <target name="sqlinit">
+    <!-- Set up filters used in copy operations. -->
+    <filter filtersfile="build.properties"/>
+    <copy todir="${build}/sql" filtering="true">
+      <fileset dir="${sql}/${db.vendor}" includes="**/*.sql"/>
+    </copy>
+  </target>
+
+  <!-- We turn autocommit on because PostgreSQL will not drop   -->
+  <!-- the database otherwise.                                  -->
+  <target name="dbdrop" depends="sqlinit"
+        description="Drop the database">
+    <sql driver="${db.driver}"
+         url="${db.url}"
+         autocommit="true"
+         userid="${db.admin.logon}"
+         password="${db.admin.password}"
+         src="${build}/sql/drop_db.sql"/>
+  </target>
+
+  <target name="dbcreate" depends="sqlinit"
+        description="Create the database">
+    <sql driver="${db.driver}"
+         url="${db.url}"
+         userid="${db.admin.logon}"
+         password="${db.admin.password}"
+         src="${build}/sql/create_db.sql"/>
+  </target>
+
+  <target name="dbinit" depends="sqlinit"
+        description="Create tables in the database">
+    <sql driver="${db.driver}"
+         url="${db.ajaqs.url}"
+         onerror="continue"
+         userid="${db.user.logon}"
+         password="${db.user.password}"
+         src="${build}/sql/create_tables.sql"/>
+  </target>
+
+  <target name="dbdroptables" depends="sqlinit"
+        description="Drop tables from the database">
+    <sql driver="${db.driver}"
+         url="${db.ajaqs.url}"
+         onerror="continue"
+         userid="${db.user.logon}"
+         password="${db.user.password}"
+         src="${build}/sql/drop_tables.sql"/>
+  </target>
+
+  <target name="dbinsert" depends="sqlinit"
+        description="Insert test data into the database">
+    <sql driver="${db.driver}"
+         url="${db.ajaqs.url}"
+         onerror="continue"
+         userid="${db.user.logon}"
+         password="${db.user.password}"
+         src="${build}/sql/insert_data.sql"/>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Clean up                                                 -->
+  <!--##########################################################-->
+
+  <target name="clean"
+        description="Clean up">
+    <!-- Delete the ${build}, ${dist}, and ${unpacked}          -->
+    <!-- directory trees.                                       -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <delete dir="${unpacked}"/>
+  </target>
+
+  <!--##########################################################-->
+  <!-- Tasks used for deployment during development/debugging.  -->
+  <!--##########################################################-->
+
+  <!-- This is the converse operation of 'remove'.    -->
+  <target name="install" description="Install web application">
+    <!-- We first guarantee that we have an unpacked webapp. -->
+    <antcall target="unpacked.war"/>
+    <install url="${manager.url}"
+      username="${manager.username}" password="${manager.password}"
+      path="${webapp.path}" war="${webapp.unpacked}"/>
+  </target>
+
+  <!-- This is the converse operation of 'install'. -->
+  <target name="remove" description="Remove web application">
+    <remove url="${manager.url}"
+      username="${manager.username}" password="${manager.password}"
+      path="${webapp.path}"/>
+  </target>
+
+  <!-- Use this to tell Tomcat something has changed.           -->
+  <target name="reload" description="Reload web application">
+    <reload url="${manager.url}"
+      username="${manager.username}" password="${manager.password}"
+      path="${webapp.path}"/>
+  </target>
+
+</project>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jdo-conf PUBLIC
+  "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+  "http://www.castor.org/jdo-conf.dtd">
+
+<jdo-conf>
+  <database name="@db.ajaqs.name@" engine="@db.vendor@">
+    <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
+      <param name="driver-class-name" value="@db.jdbc.driver@"/>
+      <param name="url" value="@db.ajaqs.url@"/>
+      <param name="username" value="@db.user.logon@"/>
+      <param name="password" value="@db.user.password@"/>
+      <param name="max-active" value="10"/>
+    </data-source>
+    <mapping href="castor/mapping.xml"/>
+  </database>
+  <transaction-demarcation mode="local"/>
+</jdo-conf>

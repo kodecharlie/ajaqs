@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<!-- We specify the media type as text/html because the media    -->
+<!-- type for XHTML is still not well defined.  To make the      -->
+<!-- XHTML backwards compatible with HTML, we follow guidelines  -->
+<!-- at: http://www.w3.org/TR/xhtml1/#guidelines                 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Installing Ajaqs</title>
+</head>
+<body>
+<h2>Install the source distribution</h2>
+Make sure you have downloaded all of the
+<a href="about.html#technologies">required technologies</a>
+somewhere on your computer.  Then follow these steps:
+<ol>
+  <li>
+    <p>
+      Unzip the source bundle in some read/write-able location
+      on your computer.  For purposes of explanation, let us assume
+      that directory is called <em>ajaqs</em>.
+    </p>
+  </li>
+  <li>
+    <p>
+      Modify <tt>ajaqs/build.properties</tt> to reflect the location
+      of various <tt>.jar</tt> files on your computer.
+    </p>
+  </li>
+  <li>
+    <p>
+      Copy <tt>c.tld</tt>, <tt>fmt.tld</tt>, and <tt>fn.tld</tt>
+      from the JSTL distribution and put them under <tt>ajaqs/web/WEB-INF</tt>.
+    </p>
+  </li>
+  <li>
+    <p>
+      Copy <tt>request.tld</tt> from the jakarta-request-1.0.1
+      distribution and put it under <tt>ajaqs/web/WEB-INF</tt>.
+    </p>
+  </li>
+</ol>
+<hr />
+<h2>Create back-end</h2>
+To set up the back-end, do this:
+<ol>
+  <li><p>Make sure your database vendor is supported.  You can
+  verify this by looking in the <tt>ajaqs/sql</tt> subdirectory
+  and seeing if there is a directory there with SQL scripts for
+  your vendor.</p></li>
+  <li><p>Create the database you identified in <tt>build.properties</tt>.
+  </p></li>
+  <li><p>Make sure a connection from your computer to the database
+  is possible.</p></li>
+  <li><p>Make sure the database administrator and user (and their
+  passwords) that you specified in <tt>build.properties</tt>
+  are properly set up in your database.  In particular, make
+  sure these users have suitable access restrictions with
+  respect to the database tables you intend to set up for Ajaqs.</p></li>
+  <li><p>Run:  <tt>ant dbcreate -f build.xml</tt>.</p></li>
+  <li><p>Run:  <tt>ant dbinit -f build.xml</tt>.  This will create
+  various tables in the database.  See the <a href="ermodel.html">
+  Ajaqs E-R Model</a> for a more thorough explanation of what data
+  is represented by the tables.</p></li>
+</ol>
+<hr />
+<h2>Testing the back-end</h2>
+This is an optional step mainly intended for developers.
+If you wish to validate your <tt>database.xml</tt> configuration,
+follow these steps:
+<ol>
+  <li><p>Download the jar file for <tt>Jakarta Commons Logging</tt>.
+  Put the jar file in some place where it will be found when Ajaqs
+  starts.  In my setup, I just copied the jar file into
+  <tt>/path/to/tomcat/common/lib</tt>.  <b>NOTE:</b>  when you
+  are finished with testing the back-end, move the
+  <tt>Jakarta Commons Logging</tt> jar file out of Tomcat's
+  <tt>common/lib</tt>.  It is not required for Ajaqs, and it may
+  lead to exceptions when Ajaqs starts (which is what I observed
+  on my setup).</p>
+  </li>
+  <li><p>Modify <tt>build.properties</tt> and set correct file
+  locations for the <tt>xerces.jar</tt> and <tt>commons.logging.jar</tt>
+  properties.</p>
+  </li>
+  <li><p>Run <tt>ant xmlinit</tt> to set up XML configuration files
+  under the <tt>build</tt> sub-directory.</p>
+  </li>
+  <li><p>Run <tt>ant test</tt>.  This test will load <tt>database.xml</tt>
+  and try to set a few records in your database.  If something goes
+  wrong, then it is likely some part of your setup needs to be
+  corrected.  Be cautioned that when you run this test more than once,
+  you may run into errors.  You can work around this problem by
+  always clearing the database before running <tt>ant test</tt>.
+  See the source file <tt>test/com/beardediris/ajaqs/db/MappingTest.java</tt>
+  for details.</p>
+  </li>
+</ol>
+<hr />
+<h2>Initialize Ajaqs</h2>
+<p>At this point, you should initialize the back-end with certain
+data required by Ajaqs at startup.  This includes an initial
+set of users, roles, projects, and FAQs.  Eventually, you
+will be able to create much of this data from a browser,
+provided you have admin priveleges; as of this writing, such
+support is not available.</p>
+
+<p>To prime the Ajaqs back-end with test-data, run
+<tt>ant dbinsert -f build.xml</tt>.  This uses the SQL
+script <tt>ajaqs/sql/mysql/insert_data.sql</tt> to load
+various test data in a MySql database.  For more specific
+types of initial data, you will need to create your own SQL
+script, similar to <tt>insert_data.sql</tt>, and use that
+script to prime the Ajaqs back-end.</p>
+
+<hr />
+<h2>Configure webapp server</h2>
+If you are using Tomcat, you should look at
+<tt>ajaqs/xml/tomcat/server.xml</tt>.  Find the <em>Context</em>
+in which the Ajaqs webapp is configured.  Put this <em>Context</em>
+somewhere in your webapp server's configuration
+file.  In Tomcat 5.x, such configuration is found in
+<tt>tomcat/conf/server.xml</tt>.
+
+<hr />
+<h2>Pooling with MySQL</h2>
+To pool connections to a MySQL database, take the
+following steps:
+<ol>
+  <li><p>Download the jar files for <tt>Jakarta Commons DBCP</tt>,
+    <tt>Jakarta Commons Pool</tt>, and <tt>Jakarta Commons Collections</tt>.
+    See the <a href="about.html#technologies">required technologies</a>
+    section for links to these packages.
+  </li>
+  <li><p>Put the jar files in the CLASSPATH for Ajaqs.  In my setup
+    with Tomcat 5.x, I just copy the jar files into
+    <tt>/path/to/tomcat/common/lib</tt>.</p>
+  </li>
+  <li><p>In the webapp configuration file <tt>ajaqs/web/WEB-INF/web.xml</tt>,
+    make sure you specify <tt>databasePooled.xml</tt>, rather than
+    <tt>database.xml</tt>, in the appropriate place so that you use
+    the pooling configuration.</p>
+  </li>
+</ol>
+
+<hr />
+<h2>Pooling with PostgreSQL</h2>
+To pool connections to a PostgreSQL database, just specify
+the <tt>postgresql.xml</tt> configuration in the <tt>mapping.xml</tt>
+file; this setup provides JDBC pooling.  I have not yet tested
+this configuration against PostgreSQL as of Ajaqs version 1.1.2.
+<hr />
+
+</body>
+</html>

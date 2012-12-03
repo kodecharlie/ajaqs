@@ -1,0 +1,46 @@
+/*
+ * projectlist.css - styles for projectlist.jsp
+ */
+
+/* Used to render a project name. */
+.project {
+  font-family: arial, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Used to render links associated with project. */
+.projlink {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  font-weight: normal;
+}
+
+/* Used to highlight RSS link for subscribers. */
+.rsslink {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  font-weight: bold;
+  color: #ff4500;
+}
+
+/* Used to highlight link for PDF downloads. */
+.pdflink {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+/* Used to render subtopics associated with some topic. */
+.faq {
+  font-family: arial, sans-serif;
+  font-size: 0.83em;
+  color: #0000ff;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 15px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}

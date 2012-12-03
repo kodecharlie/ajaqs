@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC
+  "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+  "http://www.castor.org/mapping.dtd">
+
+<!-- Ideally, the dirty="ignore" attribute would only be used    -->
+<!-- for blobs.  However, we use this attribute in all fields    -->
+<!-- to support modification of existing records in the backend. -->
+<!-- This presents problems with respect to the integrity of     -->
+<!-- transactions, especially when an administrator may be       -->
+<!-- making changes at the same time that a user is logged in    -->
+<!-- and using the same information.                             -->
+<mapping>
+  <class name="com.beardediris.ajaqs.db.Project" identity="id"
+         key-generator="@db.keygenerator@">
+    <map-to table="project" />
+      <field name="id" type="integer">
+        <sql name="proj_id" type="integer" dirty="ignore" />
+      </field>
+      <field name="name" type="string">
+        <sql name="name" type="char" dirty="ignore" />
+      </field>
+      <field name="creationDate" type="date">
+        <sql name="create_date" type="timestamp" dirty="ignore" />
+      </field>
+      <field name="state" type="integer">
+        <sql name="state" type="integer" dirty="ignore" />
+      </field>
+      <field name="faqs" type="com.beardediris.ajaqs.db.Faq" required="true"
+             collection="collection" lazy="true">
+        <sql name="faq_id" many-key="proj_id" many-table="faq" />
+      </field>
+  </class>
+
+  <class name="com.beardediris.ajaqs.db.Role" identity="roleName">
+    <map-to table="role" />
+      <field name="roleName" type="string">
+        <sql name="role_name" type="char" />
+      </field>
+  </class>
+
+  <class name="com.beardediris.ajaqs.db.FaqUser" identity="logon">
+    <cache-type type="none"/>
+    <map-to table="faq_user" />
+      <field name="logon" type="string">
+        <sql name="logon" type="char" dirty="ignore" />
+      </field>
+      <field name="password" type="string">
+        <sql name="password" type="char" dirty="ignore" />
+      </field>
+      <field name="email" type="string">
+        <sql name="email" type="char" dirty="ignore" />
+      </field>
+      <field name="creationDate" type="date">
+        <sql name="create_date" type="timestamp" dirty="ignore" />
+      </field>
+      <field name="lastLoginDate" type="date">
+        <sql name="last_login" type="timestamp" dirty="ignore" />
+      </field>
+      <field name="state" type="integer">
+        <sql name="state" type="integer" dirty="ignore" />
+      </field>
+      <field name="projects" type="com.beardediris.ajaqs.db.Project"
+             required="true" collection="collection" lazy="true">
+        <sql name="proj_id" many-key="logon" many-table="user_project" />
+      </field>
+      <field name="roles" type="com.beardediris.ajaqs.db.Role"
+             required="true" collection="collection" lazy="true">
+        <sql name="role_name" many-key="logon" many-table="user_role" />
+      </field>
+  </class>
+
+  <class name="com.beardediris.ajaqs.db.Faq" identity="id"
+         key-generator="@db.keygenerator@">
+    <cache-type type="none"/>
+    <map-to table="faq" />
+      <field name="id" type="integer">
+        <sql name="faq_id" type="integer" dirty="ignore" />
+      </field>
+      <field name="name" type="string">
+        <sql name="name" type="char" dirty="ignore" />
+      </field>
+      <field name="creationDate" type="date">
+        <sql name="create_date" type="timestamp" dirty="ignore" />
+      </field>
+      <field name="state" type="integer">
+        <sql name="state" type="integer" dirty="ignore" />
+      </field>
+      <field name="project" type="com.beardediris.ajaqs.db.Project">
+        <sql name="proj_id" dirty="ignore" />
+      </field>
+      <field name="questions" type="com.beardediris.ajaqs.db.Question"
+             required="true" collection="collection" lazy="true">
+        <sql name="quest_id" many-key="faq_id" many-table="question" />
+      </field>
+  </class>
+
+  <class name="com.beardediris.ajaqs.db.Question" identity="id"
+         key-generator="@db.keygenerator@">
+    <cache-type type="none"/>
+    <map-to table="question" />
+      <field name="id" type="integer">
+        <sql name="quest_id" type="integer" dirty="ignore" />
+      </field>
+      <field name="qstream" type="stream">
+        <sql name="question" type="blob" dirty="ignore" />
+      </field>
+      <field name="creationDate" type="date">
+        <sql name="create_date" type="timestamp" dirty="ignore" />
+      </field>
+      <field name="faq" type="com.beardediris.ajaqs.db.Faq">
+        <sql name="faq_id" dirty="ignore" />
+      </field>
+      <field name="user" type="com.beardediris.ajaqs.db.FaqUser">
+        <sql name="logon" dirty="ignore" />
+      </field>
+      <field name="answers" type="com.beardediris.ajaqs.db.Answer"
+             required="true" collection="collection" lazy="true">
+        <sql name="answer_id" many-key="quest_id" many-table="answer" />
+      </field>
+  </class>
+
+  <class name="com.beardediris.ajaqs.db.Answer" identity="id"
+         key-generator="@db.keygenerator@">
+    <cache-type type="none"/>
+    <map-to table="answer" />
+      <field name="id" type="integer">
+        <sql name="answer_id" type="integer" dirty="ignore" />
+      </field>
+      <field name="astream" type="stream">
+        <sql name="answer" type="blob" dirty="ignore" />
+      </field>
+      <field name="creationDate" type="date">
+        <sql name="create_date" type="timestamp" dirty="ignore" />
+      </field>
+      <field name="question" type="com.beardediris.ajaqs.db.Question">
+        <sql name="quest_id" dirty="ignore" />
+      </field>
+      <field name="user" type="com.beardediris.ajaqs.db.FaqUser">
+        <sql name="logon" dirty="ignore" />
+      </field>
+      <field name="attachments" type="com.beardediris.ajaqs.db.Attachment"
+             required="true" collection="collection" lazy="true">
+        <sql name="attach_id" many-key="answer_id" many-table="attachment" />
+      </field>
+  </class>
+
+  <class name="com.beardediris.ajaqs.db.Attachment" identity="id"
+         key-generator="@db.keygenerator@">
+    <cache-type type="none"/>
+    <map-to table="attachment" />
+      <field name="id" type="integer">
+        <sql name="attach_id" type="integer" dirty="ignore" />
+      </field>
+      <field name="attachment" type="stream">
+        <sql name="attachment" type="blob" dirty="ignore" />
+      </field>
+      <field name="descr" type="string">
+        <sql name="descr" type="char" dirty="ignore" />
+      </field>
+      <field name="creationDate" type="date">
+        <sql name="create_date" type="timestamp" dirty="ignore" />
+      </field>
+      <field name="fileName" type="string">
+        <sql name="file_name" type="char" dirty="ignore" />
+      </field>
+      <field name="fileType" type="string">
+        <sql name="file_type" type="char" dirty="ignore" />
+      </field>
+      <field name="answer" type="com.beardediris.ajaqs.db.Answer">
+        <sql name="answer_id" dirty="ignore" />
+      </field>
+      <field name="user" type="com.beardediris.ajaqs.db.FaqUser">
+        <sql name="logon" dirty="ignore" />
+      </field>
+  </class>
+</mapping>

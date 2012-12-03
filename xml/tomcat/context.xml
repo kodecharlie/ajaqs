@@ -1,0 +1,13 @@
+<Context className="org.apache.catalina.core.StandardContext" cachingAllowed="true" charsetMapperClass="org.apache.catalina.util.CharsetMapper" cookies="true" crossContext="false" debug="0" docBase="@webapp.docbase@" path="@webapp.path@" mapperClass="org.apache.catalina.core.StandardContextMapper" privileged="false" reloadable="false" swallowOutput="false" useNaming="true" wrapperClass="org.apache.catalina.core.StandardWrapper">
+  <Realm className="org.apache.catalina.realm.JDBCRealm" debug="99"
+         driverName="@db.driver@"
+         connectionURL="@db.ajaqs.url@"
+         connectionName="@db.user.logon@"
+         connectionPassword="@db.user.password@"
+         userTable="faq_user"
+         userNameCol="logon"
+         userCredCol="password"
+         userRoleTable="user_role"
+         roleNameCol="role_name"/>
+  <Logger className="org.apache.catalina.logger.FileLogger" debug="99" directory="logs" prefix="localhost_ajaqs." suffix=".txt" timestamp="true" verbosity="4"/>
+</Context>

@@ -1,0 +1,41 @@
+/*
+ * answer.css - styles for answer.jsp
+ */
+
+/* Used to render words used in search.
+ * The font-size is inherited by the enclosing element.
+ */
+.searchword {
+  font-family: arial, sans-serif;
+  font-weight: bold;
+  background-color: #ffff00;
+}
+
+/* Used to render answers. */
+.answer {
+  font-family: arial, sans-serif;
+  font-size: 1.0em;
+  color: #000000;
+  margin-top: 15px;
+  margin-bottom: 2px;
+}
+
+/* Used to render user-information displayed with answers. */
+.userinfo {
+  font-family: arial, sans-serif;
+  font-size: 0.8em;
+  color: #0000cc;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+}
+
+/* Used to render summary of attachments for some answer. */
+.attachment {
+  font-family: arial, sans-serif;
+  font-size: 0.8em;
+  color: #0000cc;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+}

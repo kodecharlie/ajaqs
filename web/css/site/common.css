@@ -1,0 +1,88 @@
+/*
+ * common.css - CSS styles common to many JSPs used in Ajaqs.
+ *
+ * NOTE: Colors used in this stylesheet were carefully
+ * chosen to be "browser-safe"; if you want to change
+ * the color-scheme, please see
+ *
+ *      http://www.w3.org/MarkUp/Guide/Style
+ *
+ * which describes eligible browser-safe colors.
+ */
+
+/* Make all pages have white bg. */
+body {
+  background-color: #ffffff;
+}
+
+/* This style is used to draw the banner. */
+.banner {
+  background-color: #cccccc;
+  font-family: arial, sans-serif;
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+  border: solid;
+  border-width: thin;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-top: 0px;
+  margin-bottom: 1px;
+}
+
+/* Sub-title that sometimes appears beneath title. */
+.subtitle {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  text-align: center;
+  font-weight: normal;
+}
+
+/* Used to render links near the top of the page. */
+.links {
+  font-family: arial, sans-serif;
+  font-size: 0.75em;
+  background-color: #cccccc;
+  text-align: center;
+  border: solid;
+  border-width: thin;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+/*
+ * This style is used to draw the entryfield for searches
+ * which appears at the top of some pages.
+ */
+.search {
+  font-family: arial, sans-serif;
+  font-weight: bold;
+  text-align: left;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.error { 
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  font-weight: bold;
+  color: #ff0000;
+  border: solid;
+  border-width: 2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+/*
+ * This style is used to render previous/next links at the bottom
+ * of some pages.
+ */
+table.traversal {
+  width: 100%;
+}

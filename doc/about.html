@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<!-- We specify the media type as text/html because the media    -->
+<!-- type for XHTML is still not well defined.  To make the      -->
+<!-- XHTML backwards compatible with HTML, we follow guidelines  -->
+<!-- at: http://www.w3.org/TR/xhtml1/#guidelines                 -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>About Ajaqs</title>
+</head>
+<body>
+<h1>About Ajaqs</h1>
+<hr />
+<a href="install.html">Install it!</a>
+<hr />
+<h2>What is Ajaqs</h2>
+<p>Ajaqs is a web-based application used to warehouse FAQs
+on a per-project basis.  In that sense, it functions like
+the original FAQ-o-matic, written by Jon Howell.</p>
+
+<h2>The original FAQ-o-matic</h2>
+<p>I first used the original FAQ-o-matic at apache.org in 1999
+when I was working for a company called MATRAnet in San Carlos,
+California.  I found the online question-and-answer forum
+very helpful.  At the time, I was becoming familiar with
+Internet technologies and Java tools (like servlets), and
+thought it would be interesting to re-implement the FAQ-o-matic
+as a servlet application.  So, finally finding some spare
+time in Africa (where I work as a Peace Corps Volunteer
+in Uganda), I've done it.  Ajaqs is the result.</p>
+
+<h2>Ajaqs is Free Software</h2>
+<p>Because of the tremendous effort of the Free Software
+Foundation, and the role it has played in my own professional
+development, I have felt compelled to donate this work
+to the software community (please see <a href="license.html">
+licensing details</a>).  My hope is that Ajaqs will
+help engineering groups maintain and perpetuate their
+knowledge-base.  In my own experience, one of the great
+challenges of engineering a new project is not in fact
+the project itself, but instead, the storage, transmission
+(often to novices), and searching, of all the knowledge
+that grows up around the project.  Companies have a
+vested interest not only in making this knowledge readily
+understood, but also stand to gain when their top-tier
+engineers are spending time on new projects, not dealing
+with questions on old ones.</p>
+
+<h2>Main Features</h2>
+<ul>
+  <li>Serves up XHTML 1.0 (Transitional).</li>
+  <li>Internationalizable front-end.</li>
+  <li>Text-only front-end.</li>
+  <li>Templatized front-end.</li>
+  <li>Customizable styles using stylesheets.</li>
+  <li>Back-end independent of database-vendor.</li>
+  <li>Pooling of database connections for reuse.</li>
+  <li>Can attach text or image to answers.</li>
+  <li>Can associate several FAQs with a single project.</li>
+  <li>Searchable FAQs.</li>
+  <li>Role-based security access.</li>
+  <li>Administrative front-end for editing or deleting
+  users, projects, FAQs, questions, answers, and attachments.</li>
+</ul>
+
+<h2 id="technologies">
+  Technologies used in Ajaqs
+</h2>
+<p>Ajaqs uses modern, open-source Java technologies.  This
+table lists which technologies are required:</p>
+<table border="1" cellspacing="3" cellpadding="3">
+  <tr>
+    <th>Purpose</th><th>Technology</th><th>Version</th>
+  </tr>
+  <tr>
+    <td>configuration / build</td>
+    <td><a href="http://ant.apache.org">Ant</a></td>
+    <td>1.6.1</td>
+  </tr>
+  <tr>
+    <td>compilation</td>
+    <td><a href="http://java.sun.com/j2se">Java</a></td>
+    <td>1.5.0-beta2</td>
+  </tr>
+  <tr>
+    <td>front-end</td>
+    <td><a href="http://java.sun.com/products/servlet/">Java Servlets</a></td>
+    <td>2.4</td>
+  </tr>
+  <tr>
+    <td>front-end</td>
+    <td><a href="http://java.sun.com/products/jsp/">
+          Java Server Pages (JSP)</a></td>
+    <td>2.0</td>
+  </tr>
+  <tr>
+    <td>front-end</td>
+    <td><a href="http://jakarta.apache.org/taglibs/">
+          JSP Standard Tag Library (JSTL)</a></td>
+    <td>1.1</td>
+  </tr>
+  <tr>
+    <td>front-end</td>
+    <td><a href="http://jakarta.apache.org/taglibs/">
+          request (custom taglib from jakarta)</a></td>
+    <td>1.0.1</td>
+  </tr>
+  <tr>
+    <td>front-end</td>
+    <td><a href="http://www.w3.org/TR/xhtml1/">XHTML</a></td>
+    <td>1.0 Transitional</td>
+  </tr>
+  <tr>
+    <td>front-end</td>
+    <td><a href="http://www.w3.org/TR/REC-CSS2/">
+          Cascading Style Sheets</a></td>
+    <td>2.0</td>
+  </tr>
+  <tr>
+    <td>back-end</td>
+    <td><a href="http://castor.exolab.org">Castor</a></td>
+    <td>0.9.7</td>
+  </tr>
+  <tr>
+    <td>back-end</td>
+    <td><a href="http://www.servlets.com/cos/index.html">
+          MultipartRequest</a></td>
+    <td>1.30b3</td>
+  </tr>
+  <tr>
+    <td>back-end</td>
+    <td><a href="http://www.mysql.com">MySQL</a></td>
+    <td>MySQL-4.1.7</td>
+  </tr>
+  <tr>
+    <td>datbase-connection<br />pooling</td>
+    <td>
+      <a href="http://jakarta.apache.org/commons/dbcp/">
+        Jakarta Commons DBCP
+      </a>
+    </td>
+    <td>1.2.1</td>
+  </tr>
+  <tr>
+    <td>datbase-connection<br />pooling</td>
+    <td>
+      <a href="http://jakarta.apache.org/commons/pool/">
+        Jakarta Commons Pool
+      </a>
+    </td>
+    <td>1.2</td>
+  </tr>
+  <tr>
+    <td>datbase-connection<br />pooling</td>
+    <td>
+      <a href="http://jakarta.apache.org/commons/collections/">
+        Jakarta Commons Collections
+      </a>
+    </td>
+    <td>3.1</td>
+  </tr>
+  <tr>
+    <td>logging / debugging</td>
+    <td><a href="http://jakarta.apache.org/log4j">log4j</a></td>
+    <td>1.2.8</td>
+  </tr>
+</table>
+<p>We use Castor for two reasons:</p>
+<ol>
+  <li><p>To make Ajaqs independent of the database vendor.  That is,
+  Ajaqs in theory can be mapped onto a variety of database products,
+  provided Castor supports the vendor in question.</p></li>
+  <li><p>To support transactions.  That is, every page in Ajaqs is
+  processed as a transaction, so either the whole page works fine
+  and we commit (where need be) to the database, or we rollback
+  and do not commit any changes at all.</p></li>
+</ol>
+<p>The default configuration for Ajaqs relies on MySQL-Max.
+We use INNODB tables, provided in MySQL-Max, in order to get
+transactional behavior in the back-end.</p>
+
+<h2>Advantages of Ajaqs</h2>
+Here are some key advantages of using Ajaqs:
+<ul>
+  <li><p>Flexibility.  The end-user should be able to use any
+  major commercial (or open-source) database on the market.
+  Moreover, the end-user should be able to customize the
+  look-and-feel of the front-end; this includes the ability
+  to internationalize the application.</p></li>
+  <li><p>Maintenance.  Both external documentation (like this)
+  and inline javadocs should explain how things work.  I've
+  tried to write clean Java code so that developers who build
+  on Ajaqs will have a clear, easily extensible starting point.</p></li>
+  <li><p>Ease of Use.  Installation is simple; you just have to
+  create a .war file and drop it in the right directory/folder.
+  The Ajaqs interface is text-based, and intended to provide easy
+  access to search operations.</p></li>
+  <li><p>Security.  File system security issues are completely
+  off-loaded to the Java security model (i.e., the Java sandbox)
+  and whatever access-policy may be in place for the database.
+  Ajaqs-specific security in connection with particular web
+  content is off-loaded to the security model for the application
+  server under use.  Ajaqs-specific security that deals with
+  end-users is role-based, and leverages Castor's JDO mapping
+  model to restrict, automatically, what data from the back-end
+  some end-user can access.</p></li>
+</ul>
+
+<h2>Disadvantages of Ajaqs</h2>
+<p>Here are some disadvantages of using Ajaqs:</p>
+<ul>
+  <li><p>Castor.  Although this is a big design advantage, in practice
+  it poses occasional problems, partly because of sketchy documentation.
+  </p></li>
+  <li><p>Non-trivial design.  Ajaqs may be powerful, but it comes
+  at a great price.  As the list of technologies above indicates,
+  it takes a well-versed Java developer to understand all the issues
+  involved in making Ajaqs work properly.</p></li>
+</ul>
+
+<h2>Whence the name Ajaqs?</h2>
+<p><em>Ajaqs</em> stands for <u>a</u> <u>J</u>ava F<u>AQ</u>-o-matic,
+and is pronounced like the proper noun Ajax, which is the name
+once given to a great warrior in ancient Greek mythology.</p>
+
+<h2>Thanks</h2>
+<p>Here are some contributors who have helped make this package
+possible:</p>
+<ul>
+  <li><p>Jon Howell, author of the original
+  <a href="http://faqomatic.sourceforge.net">FAQ-o-matic.</a></p></li>
+  <li><p><a href="http://www.aed.org">Academy for Educational Development</a>,
+  which donated the computer equipment and the Internet hook-up where
+  I work.</p></li>
+  <li><p><a href="http://www.peacecorps.gov">Peace Corps</a>, which
+  provided a place in Uganda where I can work in peace.</p></li>
+  <li><p><a href="http://www.redhat.com">Redhat</a>, which supplied
+  the free OS (Redhat 7.1) and superior development tools with which
+  I wrote Ajaqs.</p></li>
+</ul>
+
+<h2>How You Can Help</h2>
+<p>You can help make Ajaqs a better tool in the following ways:
+<ul>
+  <li>Use it.</li>
+  <li>Report bugs to me.</li>
+  <li>Report feature requests to me.</li>
+  <li>Port Ajaqs to other database vendors.</li>
+</ul>
+<hr />
+<center>
+<a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=121855&amp;type=4" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+</center>
+</body>
+</html>

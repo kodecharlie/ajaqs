@@ -1,0 +1,89 @@
+Version 1.1.6.3 - 03-24-2006
+----------------------------
+* Serialize objects that are placed in the HTTP session.
+* Do not use an HTTP session on JSPs that don't require
+  data to be persisted across pages.
+* Move Logout servlet to non-secured resource.
+
+Version 1.1.6.2 - 03-23-2006
+----------------------------
+* Pre-compile JSPs during Ant build process.
+
+Version 1.1.6.1 - 10-02-2005
+----------------------------
+* Support downloads of each project as PDF resources.
+
+Version 1.1.6 - 09-15-2005
+--------------------------
+* Support downloads of each FAQ as PDF resources.
+
+Version 1.1.5 - 09-12-2005
+--------------------------
+* Added RSS feeds on a per-project basis.
+* Trim input form parameters.
+* Fixed downloading attachments for IE.
+
+Version 1.1.4 - 09-09-2005
+--------------------------
+* Fixed test target and explained how to use it in docs.
+* Revamped exception-handling in all servlets.
+
+Version 1.1.3 - 09-06-2005
+--------------------------
+* Expunged PoolMan; replaced with Commons DBCP for connection pooling.
+* Validated XML files used with Castor.
+* Normalized links.
+
+Version 1.1.2 - 09-04-2005
+--------------------------
+* Improve efficiency of content delivery by reducing white-space
+  in JSPs and compression JSPs where client supports compressed
+  content.
+* Set up default focus for every JSP that requires user inputs.
+* Use timestamp, not date, for Castor field-to-sql mappings.
+
+Version 1.1.1 - 08-29-2005
+--------------------------
+* Added RSS feed on the projectpage for each FAQ.
+
+Version 1.1 - 08-18-2005
+------------------------
+* Ported to Castor 0.9.7
+* Ported to Servlet/JSP specs 2.4/2.0, JSTL 1.1
+
+Version 0.9.9.1 - 10-01-2003
+----------------------------
+* More UI changes mainly involving JSPs.
+
+Version 0.9.9 - 10-01-2003
+--------------------------
+* Revamped JSPs to achieve more efficient use of styles, tighter HTML.
+* Bug fix for PostgreSQL pooling.
+* Added tag ifVisible.
+* Added new properties to ajaqs.properties.
+
+Version 0.9.8 - 09-13-2003
+--------------------------
+* Set up stylesheets on per-JSP basis.
+* Added work-around for bug concerning backend-modification
+  of existing records; we just make the dirty attribute "ignore"
+  for suitable fields in mapping.xml; but read the note in that
+  file, as this change presents certain issues wrt transactional
+  integrity.
+* Added support for pooling with PostgreSQL (though not yet tested).
+
+Version 0.9.7 - 09-04-2003
+--------------------------
+* Ported SQL scripts to PostgreSQL (though Ajaqs itself is not fully
+  ported to PostgreSQL).
+* Standardized position of Edit and Delete links on admin JSPs.
+* Enclose db.commit() calls within try-block that initiates transaction.
+* Added support for deleting attachments.
+
+Version 0.9.6 - 08-07-2003
+--------------------------
+* Added various JSPs and servlets used for deleting objects
+  from within the administrative front-end.
+* Modularized Previous/Next links at bottom of some JSPs.
+* Removed putProperty tag.
+* Changed `emphKeywords' to `emphasize' tag.

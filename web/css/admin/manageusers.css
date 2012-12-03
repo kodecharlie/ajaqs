@@ -1,0 +1,22 @@
+/*
+ * manageusers.css - styles for manageusers.jsp
+ */
+
+.user {
+  font-family: arial, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+.infoedit {
+  font-family: arial, sans-serif;
+  font-size: 0.8em;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 2px;
+  margin-bottom: 10px;
+}

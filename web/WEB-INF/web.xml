@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JSP-include-directive -->
+<web-app
+  xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+
+    <description>
+      Ajaqs - an online FAQ-o-matic
+    </description>
+
+    <!--##########################################################-->
+    <!-- Set default locale. We only use it in the event that     -->
+    <!-- the client's request header does not specify a locale.   -->
+    <!--##########################################################-->
+    <context-param>
+      <param-name>
+        javax.servlet.jsp.jstl.fmt.locale
+      </param-name>
+      <param-value>en</param-value>
+    </context-param>
+
+    <!--##########################################################-->
+    <!-- Following parameters are used by the listener when the   -->
+    <!-- application is started.  If you change parameter names   -->
+    <!-- here, then you MUST change constants appearing in the    -->
+    <!-- code under: com/beardediris/ajaqs/startup/Constants.java -->
+    <!--                                                          -->
+    <!-- Use database.xml below, instead of databasePooled.xml,   -->
+    <!-- to avoid use of pooling (via Poolman).                   -->
+    <!-- For PostgreSQL, if you wish to use pooling, you must     -->
+    <!-- replace database.xml below with postgresql.xml.          -->
+    <!--##########################################################-->
+    <context-param>
+      <param-name>com.beardediris.ajaqs.startup.dbname</param-name>
+      <param-value>@db.ajaqs.name@</param-value>
+    </context-param>
+    <context-param>
+      <param-name>com.beardediris.ajaqs.startup.dbfile</param-name>
+      <param-value>/castor/database.xml</param-value>
+    </context-param>
+    <context-param>
+      <param-name>com.beardediris.ajaqs.startup.config</param-name>
+      <param-value>/WEB-INF/conf/ajaqs.properties</param-value>
+    </context-param>
+    <context-param>
+      <param-name>com.beardediris.ajaqs.startup.sqllog</param-name>
+      <param-value>@sql.log.file@</param-value>
+    </context-param>
+
+    <!--##########################################################-->
+    <!-- Set up filters.  TransactPage forces the filtered page   -->
+    <!-- to be processed as a Castor transaction.  Notice that    -->
+    <!-- we do not filter any resources under /servlets/*.  That  -->
+    <!-- is because we need more fine-grained control over when   -->
+    <!-- transactions begin and end during operation of servlets. -->
+    <!--##########################################################-->
+    <filter>
+      <filter-name>GzipFilter</filter-name>
+      <filter-class>com.cj.gzipflt.GzipFilter</filter-class>
+    </filter>
+
+    <filter>
+      <filter-name>Transact JSP</filter-name>
+      <filter-class>
+        com.beardediris.ajaqs.filter.TransactPage
+      </filter-class>
+    </filter>
+
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/jsp/admin/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>Transact JSP</filter-name>
+      <url-pattern>/jsp/admin/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/jsp/user/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>Transact JSP</filter-name>
+      <url-pattern>/jsp/user/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/jsp/security/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>Transact JSP</filter-name>
+      <url-pattern>/jsp/security/register.jsp</url-pattern>
+    </filter-mapping>
+
+    <!-- Do not compress feeds because sometimes the client may   -->
+    <!-- not accept compressed XML.                               -->
+    <filter-mapping>
+      <filter-name>Transact JSP</filter-name>
+      <url-pattern>/jsp/feeds/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Although all servlets are ultimately forwarded to JSPs,  -->
+    <!-- the URL invoked by the client is the servlet, so we must -->
+    <!-- filter on servlets to make sure that content returned by -->
+    <!-- them is compressed, where appropriate.  Note that for    -->
+    <!-- attachments served up by the 'download' servlet, the     -->
+    <!-- client must support some type of cacheing for this       -->
+    <!-- compression scheme to work properly.  Omit the getfaqpdf -->
+    <!-- servlet because MSIE utterly fails when when the content -->
+    <!-- returned from that servlet is compressed.                -->
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/servlets/user/newquestion</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/servlets/user/newanswer</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/servlets/user/upload</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/servlets/user/download</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/servlets/admin/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+      <filter-name>GzipFilter</filter-name>
+      <url-pattern>/servlets/security/*</url-pattern>
+    </filter-mapping>
+
+    <!--##########################################################-->
+    <!-- CAUTION: if your webapp container does not support       -->
+    <!-- listeners, then comment the Start listener element, and  -->
+    <!-- uncomment the MapDB servlet.  These two elements do      -->
+    <!-- the same initialization, so they never should be used    -->
+    <!-- concurrently.                                            -->
+    <!--##########################################################-->
+    <listener>
+      <listener-class>
+        com.beardediris.ajaqs.startup.Start
+      </listener-class>
+    </listener>
+    <listener>
+      <listener-class>
+        com.beardediris.ajaqs.session.LoadUserConfig
+      </listener-class>
+    </listener>
+
+    <!--##########################################################-->
+    <!-- Use database.xml below, instead of databasePooled.xml,   -->
+    <!-- if you wish to avoid use of pooling.                     -->
+    <!--##########################################################-->
+    <!--
+    <servlet>
+      <servlet-name>ajaqs-init</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.startup.MapDB</servlet-class>
+      <init-param>
+        <param-name>com.beardediris.ajaqs.startup.dbname</param-name>
+        <param-value>@db.ajaqs.name@</param-value>
+      </init-param>
+      <init-param>
+        <param-name>com.beardediris.ajaqs.startup.dbfile</param-name>
+        <param-value>/castor/database.xml</param-value>
+      </init-param>
+      <init-param>
+        <param-name>com.beardediris.ajaqs.startup.config</param-name>
+        <param-value>/WEB-INF/conf/ajaqs.properties</param-value>
+      </init-param>
+      <init-param>
+        <param-name>com.beardediris.ajaqs.startup.sqllog</param-name>
+        <param-value>@sql.log.file@</param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+    -->
+
+    <servlet>
+      <servlet-name>newquestion</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.SubmitQuestion</servlet-class>
+      <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>newanswer</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.SubmitAnswer</servlet-class>
+      <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>upload</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.AddAttachment</servlet-class>
+      <load-on-startup>4</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>download</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.GetAttachment</servlet-class>
+      <load-on-startup>5</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>logout</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.Logout</servlet-class>
+      <load-on-startup>6</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>getfaqpdf</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.GetFaqPdf</servlet-class>
+      <load-on-startup>7</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>deleteuser</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.DeleteUser</servlet-class>
+      <load-on-startup>8</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>deleteproject</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.DeleteProject</servlet-class>
+      <load-on-startup>9</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>deletefaq</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.DeleteFaq</servlet-class>
+      <load-on-startup>10</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>deletequestion</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.DeleteQuestion</servlet-class>
+      <load-on-startup>11</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>deleteanswer</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.DeleteAnswer</servlet-class>
+      <load-on-startup>12</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>deleteattachment</servlet-name>
+      <servlet-class>
+        com.beardediris.ajaqs.util.DeleteAttachment
+      </servlet-class>
+      <load-on-startup>13</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>newproject</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.NewProject</servlet-class>
+      <load-on-startup>14</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>newfaq</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.NewFaq</servlet-class>
+      <load-on-startup>15</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>edituser</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.EditUser</servlet-class>
+      <load-on-startup>16</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>editproject</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.EditProject</servlet-class>
+      <load-on-startup>17</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>editfaq</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.EditFaq</servlet-class>
+      <load-on-startup>18</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>editquestion</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.EditQuestion</servlet-class>
+      <load-on-startup>19</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>editanswer</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.EditAnswer</servlet-class>
+      <load-on-startup>20</load-on-startup>
+    </servlet>
+
+    <servlet>
+      <servlet-name>register</servlet-name>
+      <servlet-class>com.beardediris.ajaqs.util.Register</servlet-class>
+      <load-on-startup>21</load-on-startup>
+    </servlet>
+
+    <!-- Declarations and mappings for JSP servlets. -->
+    <!-- JSP-include-stub -->
+
+    <servlet-mapping>
+      <servlet-name>newquestion</servlet-name>
+      <url-pattern>/servlets/user/newquestion</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>newanswer</servlet-name>
+      <url-pattern>/servlets/user/newanswer</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>upload</servlet-name>
+      <url-pattern>/servlets/user/upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>download</servlet-name>
+      <url-pattern>/servlets/user/download</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>getfaqpdf</servlet-name>
+      <url-pattern>/servlets/user/faq.pdf</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>deleteuser</servlet-name>
+      <url-pattern>/servlets/admin/deleteuser</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>deleteproject</servlet-name>
+      <url-pattern>/servlets/admin/deleteproject</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>deletefaq</servlet-name>
+      <url-pattern>/servlets/admin/deletefaq</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>deletequestion</servlet-name>
+      <url-pattern>/servlets/admin/deletequestion</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>deleteanswer</servlet-name>
+      <url-pattern>/servlets/admin/deleteanswer</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>deleteattachment</servlet-name>
+      <url-pattern>/servlets/admin/deleteattachment</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>newproject</servlet-name>
+      <url-pattern>/servlets/admin/newproject</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>newfaq</servlet-name>
+      <url-pattern>/servlets/admin/newfaq</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>edituser</servlet-name>
+      <url-pattern>/servlets/admin/edituser</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>editproject</servlet-name>
+      <url-pattern>/servlets/admin/editproject</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>editfaq</servlet-name>
+      <url-pattern>/servlets/admin/editfaq</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>editquestion</servlet-name>
+      <url-pattern>/servlets/admin/editquestion</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>editanswer</servlet-name>
+      <url-pattern>/servlets/admin/editanswer</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>logout</servlet-name>
+      <url-pattern>/servlets/security/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+      <servlet-name>register</servlet-name>
+      <url-pattern>/servlets/security/register</url-pattern>
+    </servlet-mapping>
+
+    <!--##########################################################-->
+    <!-- Specify default web page for ajaqs webapp.               -->
+    <!--##########################################################-->
+    <welcome-file-list>
+      <welcome-file>/jsp/user/projectlist.jsp</welcome-file>
+      <welcome-file>/doc/ermodel.html</welcome-file>
+    </welcome-file-list>
+
+    <!--##########################################################-->
+    <!-- Specify Tag Libraries                                    -->
+    <!--##########################################################-->
+    <taglib>
+        <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+        <taglib-location>/WEB-INF/c.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+        <taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+        <taglib-location>/WEB-INF/fmt.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+       <taglib-uri>http://jakarta.apache.org/jsp/jstl/functions</taglib-uri>
+       <taglib-location>/WEB-INF/fn.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+       <taglib-uri>http://jakarta.apache.org/taglibs/request-1.0</taglib-uri>
+       <taglib-location>/WEB-INF/request.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+       <taglib-uri>/WEB-INF/ajaqs.tld</taglib-uri>
+       <taglib-location>/WEB-INF/ajaqs.tld</taglib-location>
+    </taglib>
+
+    <taglib>
+       <taglib-uri>/WEB-INF/templates.tld</taglib-uri>
+       <taglib-location>/WEB-INF/templates.tld</taglib-location>
+    </taglib>
+
+    <!--##########################################################-->
+    <!-- Login / Authentication                                   -->
+    <!--##########################################################-->
+    <security-constraint>
+      <web-resource-collection>
+        <web-resource-name>Ajaqs Administrator</web-resource-name>
+        <url-pattern>/jsp/admin/*</url-pattern>
+      </web-resource-collection>
+      <web-resource-collection>
+        <web-resource-name>Servlets for administrators</web-resource-name>
+        <url-pattern>/servlets/admin/*</url-pattern>
+      </web-resource-collection>
+      <auth-constraint>
+        <role-name>ajaqs-admin</role-name>
+      </auth-constraint>
+      <user-data-constraint>
+        <transport-guarantee>NONE</transport-guarantee>
+      </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+      <web-resource-collection>
+        <web-resource-name>Ajaqs User</web-resource-name>
+        <url-pattern>/jsp/user/*</url-pattern>
+      </web-resource-collection>
+      <web-resource-collection>
+        <web-resource-name>Servlets for all users</web-resource-name>
+        <url-pattern>/servlets/user/*</url-pattern>
+      </web-resource-collection>
+      <auth-constraint>
+        <role-name>ajaqs-user</role-name>
+      </auth-constraint>
+      <user-data-constraint>
+        <transport-guarantee>NONE</transport-guarantee>
+      </user-data-constraint>
+    </security-constraint>
+
+    <login-config>
+      <auth-method>FORM</auth-method>
+      <realm-name>Authentication via JDBC</realm-name>
+      <form-login-config>
+        <form-login-page>/jsp/security/logon.jsp</form-login-page>
+        <form-error-page>/jsp/security/logon.jsp?error=true</form-error-page>
+      </form-login-config>
+    </login-config>
+
+    <security-role>
+      <description>Ordinary user of Ajaqs</description>
+      <role-name>ajaqs-user</role-name>
+    </security-role>
+
+    <!-- This role is hard-coded in the Java code. If you change  -->
+    <!-- the name of the role here, then you must change the Java -->
+    <!-- code, too.                                               -->
+    <security-role>
+      <description>Administrator for Ajaqs</description>
+      <role-name>ajaqs-admin</role-name>
+    </security-role>
+
+</web-app>

@@ -1,0 +1,23 @@
+# These properties need to be merged into the top-level
+# build.properties file if you are using MySQL.  See comments
+# in that file for an explanation of what these properties
+# mean.
+
+db.vendor=mysql
+db.keygenerator=IDENTITY
+
+db.driver=org.gjt.mm.mysql.Driver
+db.url=jdbc:mysql://mukuju/mysql
+
+db.jdbc.driver=com.mysql.jdbc.Driver
+
+db.ajaqs.name=ajaqs
+db.ajaqs.url=jdbc:mysql://mukuju/ajaqs
+
+db.admin.logon=root
+db.admin.password=connected
+
+db.user.logon=cread
+db.user.password=cread123
+
+db.user.host=mukuju

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="multipart/mixed; charset=UTF-8" />
+<title>Add Attachment to Answer</title>
+<link type="text/css" rel="stylesheet" href="faqstyle.css" />
+</head>
+<body>
+
+<form method="POST" action="/ajaqs/servlets/user/attach">
+<center>
+<!-- use width only for Netscape 4.7 -->
+<table class="main" width="80%"
+       summary="Attach file to Answer" border="0" cellspacing="0">
+  <tr class="banner"><td height="80" colspan="3">
+        <p class="title">Add Attachment to Answer</p></td></tr>
+  <tr><td colspan="3"><hr /></td></tr>
+        <table summary="Enter name and type of file"
+               border="0" cellpadding="6" cellspacing="3">
+          <tr>
+            <th align="right"><label for="fn">File name:</label></th>
+            <td><input type="file" name="filename" id="fn" /></td>
+          </tr>
+          <tr>
+            <th align="right"><label for="ft">File type:</label></th>
+            <td>
+              <select name="filetype" id="ft">
+                <option value="pdf">Portable Document Format (*.pdf)</option>
+                <option value="jpg">JPEG (*.jpg)</option>
+                <option value="gif">GIF (*.gif)</option>
+                <option value="html">HTML (*.html)</option>
+                <option value="png">Portable Network Graphics (*.png)</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <th align="left"><input type="submit" value="Submit" /></th>
+          </tr>
+        </table>
+      </td>
+  </tr>
+</table>
+</center>
+</form>
+
+</body>
+</html>

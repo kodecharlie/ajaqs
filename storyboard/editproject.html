@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  lang="en">
+<head>
+<!-- We specify the media type as text/html because the media
+     type for XHTML is still not well defined.  To make the
+     XHTML backwards compatible with HTML, we follow guidelines
+     at: http://www.w3.org/TR/xhtml1/#guidelines 
+  -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Edit Project</title>
+<link type="text/css" rel="stylesheet" href="faqstyle.css" />
+</head>
+<body>
+
+<form method="POST" action="/ajaqs/servlets/admin/editproject">
+  <input type="hidden" name="project" value="1" />
+<center>
+<table class="main"
+  summary="Edit project"
+  border="0" cellspacing="0">
+  <tr class="banner">
+    <td height="80" colspan="3">
+      <p class="title">
+        Edit Project
+      </p>
+    </td>
+  </tr>
+  <tr><td colspan="3"><hr /></td></tr>
+  <tr>
+    <td class="toplevel" colspan="3" align="center">
+      <a href="/ajaqs/jsp/admin/addfaq.jsp">
+        Add FAQ
+      </a> |
+      <a href="/ajaqs/jsp/admin/manageprojects.jsp">
+        Projects
+      </a> |
+      <a href="/ajaqs/jsp/admin/manageusers.jsp">
+        Users
+      </a> |
+      <a href="/ajaqs/servlets/user/logout">
+        Log out
+      </a>
+    </td>
+  </tr>
+  <tr><td colspan="3"><hr /></td></tr>
+  <tr>
+    <td colspan="3" align="center">
+      <table summary="Edit project information"
+        border="0" cellpadding="3" cellspacing="3">
+        <tr>
+          <th align="right"><label for="name">
+            Name:</label></th>
+          <td>
+            <input type="text" name="name" size="16" id="name"
+              value="Ajaqs" />
+          </td>
+        </tr>
+        <tr>
+          <th align="right"><label for="selst">
+              State:</label></th>
+          <td>
+            <select name="state" id="selst">
+              <option value="1" selected="selected">
+                Active
+              </option>
+              <option value="0">
+                Inactive
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th align="right"><label for="selusers">
+              Users:</label></th>
+          <td>
+            <select name="users" multiple="multiple" size="10"
+              id="selusers">
+              <option value="all">
+                All
+              </option>
+              <option value="cread" selected="selected">
+                cread
+              </option>
+              <option value="ender" selected="selected">
+                ender
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <th align="left">
+            <input type="submit" value="Submit" />
+          </th>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</center>
+</form>
+
+</body>
+</html>

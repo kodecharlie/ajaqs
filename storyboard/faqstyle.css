@@ -1,0 +1,197 @@
+/*
+ * faqstyle.css - CSS for Ajaqs.
+ *
+ * NOTE: Colors used in this stylesheet were carefully
+ * chosen to be "browser-safe"; if you want to change
+ * the color-scheme, please see
+ *
+ *      http://www.w3.org/MarkUp/Guide/Style
+ *
+ * which describes eligible browser-safe colors.
+ */
+
+/* Make all pages have white bg. */
+body {
+  background-color: #ffffff;
+}
+
+/* Background used for emphasis. */
+.banner {
+  background-color: #cccccc;
+}
+
+/* This is the main 'outer' table containing everything else.
+ * If you want the content to fill completely the browser's
+ * screen, then use 100%.
+ */
+table.main {
+  width: 100%;
+}
+
+/* Title appearing at top of documents. */
+p.title {
+  font-family: arial, sans-serif;
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Sub-title that sometimes appears beneath title. */
+p.subtitle {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  text-align: center;
+}
+
+/* Used to render a "topic" - a project name, for example. */
+.topic {
+  font-family: arial, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+/* Used to render links associated with topics. */
+.topiclink {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+}
+
+.rsslink {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  font-weight: bold;
+  color: #ff4500;
+}
+
+/* Used to highlight link for PDF downloads. */
+.pdflink {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+/* Used to render top-level links near the top of the page. */
+.toplevel {
+  font-family: arial, sans-serif;
+  font-size: 0.75em;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #cccccc;
+}
+
+/* Used to render subtopics associated with some topic. */
+.subtopic {
+  font-family: arial, sans-serif;
+  font-size: 0.83em;
+  color: #0000ff;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 15px;
+}
+
+/* Used to render titles of FAQs. */
+.faq {
+  font-family: arial, sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+/* Used to render links appearing with FAQs. */
+.faqlnk {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+}
+
+/* Used to render questions. */
+.question {
+  font-family: arial, sans-serif;
+  font-size: 1em;
+  color: #0000ff;
+  margin-top: 5px;
+}
+
+/* Used to render answers. */
+.answer {
+  font-family: arial, sans-serif;
+  font-size: 0.8em;
+  color: #000000;
+}
+
+/* Used to render summary of attachments for some question. */
+.attachment {
+  font-family: arial, sans-serif;
+  font-size: 0.8em;
+  color: #0000cc;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+}
+
+/* Used to render user-information displayed with answers. */
+.user {
+  font-family: arial, sans-serif;
+  font-size: 0.8em;
+  color: #0000cc;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+}
+
+/* Used to render user-information displayed with users. */
+.userinfo {
+  font-family: arial, sans-serif;
+  font-size: 0.8em;
+  color: #0000cc;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+/* Used to render content shown under search result. */
+.searchresult {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+}
+
+/* Used to render path to FAQ listed under search. */
+.searchpath {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  color: #339900;
+}
+
+/* Used to render words used in search.
+ * The font-size is inherited by the enclosing element.
+ */
+.searchword {
+  font-family: arial, sans-serif;
+  font-weight: bold;
+  background-color: #ffff00;
+}
+
+/* Used to render other information associated with a search result. */
+.searchinfo {
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+}
+
+.error { 
+  font-family: arial, sans-serif;
+  font-size: 0.67em;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+/* Note describing a delete-action. */
+.deletenote { 
+  font-family: arial, sans-serif;
+  font-size: 1em;
+}
+
+/* Text identifying object to be deleted. */
+.deletable {
+  font-family: arial, sans-serif;
+  font-weight: bold;
+  margin-left: 20px;
+  margin-right: 20px;
+}

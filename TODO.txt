@@ -1,0 +1,105 @@
+HIGH PRIORITY
+-------------
+* Internationalization may require that we use properties
+  files for ease of end-user modification.  Think about how
+  we will manage properties files vis-a-vis our formatting
+  scheme with the JSTL fmt-tag library.
+
+* Get logging to work for Castor SQL queries.
+
+* Set up web-site with demo.  Need to load interesting
+  data for visitors -- multiple Projects, multiple FAQs,
+  lots of Q&As, and some Attachments.  The idea is to
+  show how simple the tool is, and how it is even useful
+  for our site.
+
+* Integrate code obfuscator with Ajaqs.
+
+* Would be nice to indicate who currently logged in user is.
+
+* Need to straighten out template of each page.
+
+* How will configuration be accessed?  If we distribute
+  an unpacked version of Ajaqs, then it should be straightforward
+  to modify the configuration.
+
+* Should have option that describes sorting scheme when
+  Projects, FAQs, etc, are displayed.  One simple start:
+  sort either alphabetically or by creation-date.  But
+  doesn't this have an implication with respect to lazy-loading?
+  IE, if we have to cycle through every object before actually
+  displaying anything, then our lazy-loading approach dies.
+
+* Integration with email: the idea is that all of the emails
+  that deal with some project ought to be catalogued in the
+  relevant FAQ -- perhaps not in Question/Answer format, but
+  at least in some way that makes them searchable and accessible
+  from Ajaqs.
+
+MEDIUM PRIORITY
+---------------
+* Add install, reload, and remove targets to build.xml.
+  ==> Done.  But this does not yet work as expected.
+
+* getFaqUser - use readOnly access bit, where aproporiate.
+
+* Deal with active/inactive bit in various objects.  Not sure
+  how this should work yet.  Think through what inactive means
+  for display purposes.  Obviously, an inactive user should be
+  prohibited from logging in, but still, we might want to see
+  his postings/submissions.  Likewise, an inactive project may
+  mean that it is now frozen in the sense that no more additions
+  to it can be made; yet, as readers, we may want to peruse
+  submissions previously made to the dead project.  As a final
+  resort, we can always just not use active/inactive.  (I thought
+  originally it would have a simple meaning, but now I am not
+  so sure.)
+
+* Should orthogonalize JSP-specific style names.
+
+* User-preferences should be supported. This means each user
+  may optionally have a set of preferences saved in a table
+  in the back-end. When the user logs in, the default configuration
+  is loaded as usual, but then that user's preferences will
+  override corresponding defaults.  For starters, this page
+  should includes user's email address and password.
+
+* Support advanced searches.  There will be a new JSP for this
+  in which a user can parameterize searches by specifying dates,
+  authors, keywords, etc. For searching, consider Lucene, Regexp.
+
+* Support saved queries, in which parameters used in advanced
+  searches are saved (and identified by some name) for future
+  searches.  We will need to add a new table to the back-end
+  for this.  We also might want to make the search and ordering
+  algorithm a pluggable class (ie, specified in a properties file).
+
+* Enhance sgml-mode for JSTL tags (in JSPs).
+  ==> We've done this through some Elisp code that works
+  under Emacs, but not XEmacs.
+
+LOW PRIORITY
+------------
+* Integrate/test other db vendors; see Castor notes for
+  list of supported vendors.
+
+* Incorporate Google searches (via "Google Web API"). This will be
+  optional; when a user wants to pick and choose between internal
+  versus external matches, he can do so by setting a flag.
+
+* mapping.xml
+  - Could be internationalized.  IE, mapping_en.xml, etc.
+  The idea is that the backend data would be chosen as per
+  front-end language needs.  (Eg, you have some FAQs in English,
+  some in Spanish, Russian, etc)
+
+* Handle case where Ajaqs is deployed multiple times
+  at a hosting site to serve multiple customers.
+
+* Check if we can use http://java.sun.com/products/jfc/PackageRename
+  in order to switch package naming in Ajaqs.  If not, can we
+  write our own tool that does that?
+
+* Set up a progress bar for file uploads.  With Castor, this now
+  seems impossible, as the actual upload into the database is
+  buried within Castor.

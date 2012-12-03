@@ -1,0 +1,17 @@
+/*
+ * delete.css - styles for delete.jsp
+ */
+
+/* Note describing a delete-action. */
+.deletenote { 
+  font-family: arial, sans-serif;
+  font-size: 1em;
+}
+
+/* Text identifying object to be deleted. */
+.deletable {
+  font-family: arial, sans-serif;
+  font-weight: bold;
+  margin-left: 20px;
+  margin-right: 20px;
+}

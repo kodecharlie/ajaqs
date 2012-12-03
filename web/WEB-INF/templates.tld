@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>1.2</jsp-version>
+  <short-name>tmplt</short-name>
+  <display-name>Tags used to templatize Ajaqs</display-name>
+  <description>Tags used to templatize Ajaqs</description>
+
+  <validator>
+    <validator-class>
+	org.apache.taglibs.standard.tlv.JstlCoreTLV
+    </validator-class>
+    <init-param>
+	<param-name>expressionAttributes</param-name>
+	<param-value>
+            put:content
+	</param-value>
+	<description>
+	    Whitespace-separated list of colon-separated token pairs
+	    describing tag:attribute combinations that accept expressions.
+	    The validator uses this information to determine which
+	    attributes need their syntax validated.
+	</description>
+     </init-param>
+  </validator>
+
+  <tag>
+    <name>insert</name>
+    <tag-class>com.beardediris.ajaqs.templates.InsertTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>template</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>put</name>
+    <tag-class>com.beardediris.ajaqs.templates.PutTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>content</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>direct</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>get</name>
+    <tag-class>com.beardediris.ajaqs.templates.GetTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+</taglib>

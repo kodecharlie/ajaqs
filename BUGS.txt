@@ -1,0 +1,60 @@
+* Fix PDF downloads for MSIE (on projectpage.jsp).
+
+* Deal with synchronization issues on edits?
+
+* Add email button to error page.
+
+* Maybe: fix tag setUserList so that the person logged in can
+  optionally be included in the list.
+
+* Need to be sure that behavior supported
+  through administrative access, is gracefully coordinated with
+  the user-experience.  Eg, if a new project (with nothing else)
+  has just been created, make sure the end-user browsing the
+  project sees reasonable outputs (Eg, no FAQs, etc).
+
+* All of these problems are related:
+  * Can we avoid the dirty="ignore" attribute in mapping.xml
+    (except for blobs)?
+  * LockNotGrantedException
+    -> sometimes occurs when RecordLoginTime called.
+  * There is a problem in many servlets where interaction with
+    the DB can cause an exception, but no rollback is ever done.
+  * For readLock Timeout problem, consider using read-only queries,
+    where appropriate (on the hunch that that will eliminate write-
+    contention).
+  * EditUser.java - this works, but the edited user can no longer
+    log in, without restarting Tomcat.
+
+* Blobs in PostgreSQL 7.3.3 do not work.  See if Castor 0.9.5 fixes this.
+
+* submitanswer.jsp
+  - If we submit from browse.jsp, should jump back to
+    question in browse.jsp where we submitted from.
+
+* search.jsp
+  - investigate FULL TEXT search through MySQL.
+  - deal with issue of inserting HTML text in questions or answers
+    (currently, the search algorithm does not know when it is within
+    an HTML tag; ie, it continues to search text within markup tags).
+
+* Add version number to dist target in build.xml.
+
+* Make reload target work right in manager.xml. Right now, we
+  have to restart tomcat every time a JSP is altered, because
+  if we reload (or instead undeploy, then deploy again) the
+  server.xml configuration is lost. In other words, tomcat
+  can hot-deploy a web-application, but the server.xml context
+  set up for that  web-application is not preserved.
+
+* We need to subject this webapp to multiple, simultaneous queries;
+  that way, we can see whether or not it behaves sensibly, and in
+  particular, exhibits acceptable transactional behavior.  My concern
+  is that a note in the Castor docs says that only one Database object
+  should be used at one time.  Since TransactPage (our wrapper around
+  almost all end-user interaction) gets a Database from the JDO, we
+  could observe some problem with multiple, simultaneous accesses.
+  This needs to be tested.
+
+* Util.java - may need to change PUNCTUATION constant so that it
+  is not US-ASCII specific.

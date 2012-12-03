@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="en"
+  lang="en">
+<head>
+<!-- We specify the media type as text/html because the media
+     type for XHTML is still not well defined.  To make the
+     XHTML backwards compatible with HTML, we follow guidelines
+     at: http://www.w3.org/TR/xhtml1/#guidelines 
+  -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Edit User</title>
+<link type="text/css" rel="stylesheet" href="faqstyle.css" />
+</head>
+<body>
+
+<form method="POST" action="/ajaqs/servlets/admin/edituser">
+  <input type="hidden" name="logon" value="cread" />
+<center>
+<table class="main"
+  summary="Edit user"
+  border="0" cellspacing="0">
+  <tr class="banner">
+    <td height="80" colspan="3">
+      <p class="title">
+        Edit User
+      </p>
+    </td>
+  </tr>
+  <tr><td colspan="3"><hr /></td></tr>
+  <tr>
+    <td colspan="3" align="center">
+      <table summary="Edit user information"
+        border="0" cellpadding="3" cellspacing="3">
+        <tr>
+          <th align="right"><label for="email">
+            E-mail:</label></th>
+          <td>
+            <input type="text" name="email" size="16" id="email"
+              value="cread@hotmail.com" />
+          </td>
+        </tr>
+        <tr>
+          <th align="right"><label for="selst">
+              State:</label></th>
+          <td>
+            <select name="state" id="selst">
+              <option value="1" selected="selected">
+                Active
+              </option>
+              <option value="0">
+                Inactive
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th align="right"><label for="selroles">
+            Roles:</label></th>
+          <td>
+            <select name="roles" multiple="multiple" size="5"
+              id="selroles">
+              <option value="all">
+                All
+              </option>
+              <option value="ajaqs-admin" selected="selected">
+                ajaqs-admin
+              </option>
+              <option value="ajaqs-user" selected="selected">
+                ajaqs-user
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th align="right"><label for="selpjs">
+              Projects:</label></th>
+          <td>
+            <select name="projects" multiple="multiple" size="10"
+              id="selpjs">
+              <option value="all">
+                All
+              </option>
+              <option value="Ajaqs" selected="selected">
+                Ajaqs
+              </option>
+              <option value="WebKiosk" selected="selected">
+                WebKiosk
+              </option>
+              <option value="xdelimitarea">
+                xdelimitarea
+              </option>
+              <option value="WebAmortization" selected="selected">
+                WebAmortization
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <th align="left">
+            <input type="submit" value="Submit" />
+          </th>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</center>
+</form>
+
+</body>
+</html>

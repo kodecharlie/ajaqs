@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>1.2</jsp-version>
+  <short-name>ajq</short-name>
+  <display-name>Custom tags for Ajaqs</display-name>
+  <description>Custom tags for Ajaqs</description>
+
+  <validator>
+    <validator-class>
+	org.apache.taglibs.standard.tlv.JstlCoreTLV
+    </validator-class>
+    <init-param>
+	<param-name>expressionAttributes</param-name>
+	<param-value>
+            checkBrowser:agent
+            emphasize:cssClass
+            emphasize:keywords
+            emphasize:text
+            getConfig:param
+            getProperty:property
+            getProperty:var
+            getProperty:scope
+            ifContains:collection
+            ifContains:item
+            ifVisible:object
+            searchProject:var
+            searchProject:keywords
+            searchProject:userid
+            searchProject:project
+            searchProject:faq
+            setAnswer:answer
+            setAnswer:questionid
+            setAnswer:var
+            setAnswer:scope
+            setAttachment:attachment
+            setAttachment:answerid
+            setAttachment:var
+            setAttachment:scope
+            setFaq:faq
+            setFaq:projectid
+            setFaq:var
+            setFaq:scope
+            setProject:project
+            setProject:userid
+            setProject:var
+            setProject:scope
+            setProject:emptyOk
+            setProjList:logon
+            setProjList:var
+            setProjList:scope
+            setProjList:all
+            setQuestion:question
+            setQuestion:faqid
+            setQuestion:var
+            setQuestion:scope
+            setRoleList:logon
+            setRoleList:var
+            setRoleList:scope
+            setUser:logon
+            setUser:var
+            setUser:scope
+            setUserList:logon
+            setUserList:var
+            setUserList:scope
+	</param-value>
+	<description>
+	    Whitespace-separated list of colon-separated token pairs
+	    describing tag:attribute combinations that accept expressions.
+	    The validator uses this information to determine which
+	    attributes need their syntax validated.
+	</description>
+     </init-param>
+  </validator>
+
+  <tag>
+    <name>getError</name>
+    <tag-class>com.beardediris.ajaqs.taglib.GetErrorTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Emit a string associated with an internal exception.
+    </description>
+  </tag>
+
+  <tag>
+    <name>checkBrowser</name>
+    <tag-class>com.beardediris.ajaqs.taglib.CheckBrowserTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Determine if user-agent (browser) is Netscape 4.7 or less.
+    </description>
+    <attribute>
+        <name>agent</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>emphasize</name>
+    <tag-class>com.beardediris.ajaqs.taglib.EmphasizeTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Emphasize keywords in the specified text.
+    </description>
+    <attribute>
+        <name>cssClass</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>keywords</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>text</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>getConfig</name>
+    <tag-class>com.beardediris.ajaqs.taglib.GetConfigTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Get tag-configuration attribute from
+        javax.servlet.jsp.jstl.core.Config.
+    </description>
+    <attribute>
+        <name>param</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>getProperty</name>
+    <tag-class>com.beardediris.ajaqs.taglib.GetPropertyTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Get the value for the property associated with the object
+        stored in the given variable.
+    </description>
+    <attribute>
+        <name>property</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>ifContains</name>
+    <tag-class>com.beardediris.ajaqs.taglib.IfContainsTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+        Check if some collection contains the specified item.
+    </description>
+    <attribute>
+        <name>collection</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>item</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>ifVisible</name>
+    <tag-class>com.beardediris.ajaqs.taglib.IfVisibleTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+        Check if some object can be displayed.
+    </description>
+    <attribute>
+        <name>object</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>searchProject</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SearchProjectTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Search questions and answers in the specified project
+        for special keywords.
+    </description>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>keywords</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>userid</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>project</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>faq</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setAnswer</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetAnswerTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Find and store the given answer associated with
+      the questionid.  The answer is stored in the specified scope.
+    </description>
+    <attribute>
+        <name>answer</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>questionid</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setAttachment</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetAttachmentTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Find and store the given attachment associated with
+      the answerid.  The attachment is stored in the specified scope.
+    </description>
+    <attribute>
+        <name>attachment</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>answerid</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setFaq</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetFaqTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Find and store the given faq associated with
+      the projectid.  The faq is stored in the specified scope.
+    </description>
+    <attribute>
+        <name>faq</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>projectid</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setProject</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetProjectTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Find and store the given project associated with
+      the userid.  The project is stored in the specified scope.
+    </description>
+    <attribute>
+        <name>project</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>userid</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>emptyOk</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setProjList</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetProjListTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Retrieve and store a list of projects
+        in the specified scope for later reference.
+    </description>
+    <attribute>
+        <name>logon</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>all</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setQuestion</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetQuestionTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Find and store the given question associated with
+      the faqid.  The question is stored in the specified scope.
+    </description>
+    <attribute>
+        <name>question</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>faqid</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setRoleList</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetRoleListTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Retrieve the list of all roles and store this list
+        in the specified scope for later reference.
+    </description>
+    <attribute>
+        <name>logon</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setUser</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetUserTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Find and store the user with the given logon in the
+        session context for later reference.
+    </description>
+    <attribute>
+        <name>logon</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>setUserList</name>
+    <tag-class>com.beardediris.ajaqs.taglib.SetUserListTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+        Retrieve the list of all users (minus the current user)
+        and store this list in the specified scope for later reference.
+    </description>
+    <attribute>
+        <name>logon</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>var</name>
+        <required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+        <name>scope</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+</taglib>

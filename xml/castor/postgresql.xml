@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jdo-conf PUBLIC
+  "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+  "http://www.castor.org/jdo-conf.dtd">
+
+<jdo-conf>
+  <database name="@db.ajaqs.name@" engine="@db.vendor@">
+    <data-source class-name="org.postgresql.jdbc2.optional.PoolingDataSource">
+      <param name="server-name" value="localhost"/>
+      <param name="database-name" value="@db.ajaqs.name@"/>
+      <param name="initial-connections" value="2"/>
+      <param name="max-connections" value="10"/>
+      <param name="user" value="@db.user.logon@"/>
+      <param name="password" value="@db.user.password@"/>
+    </data-source>
+    <mapping href="castor/mapping.xml" />
+  </database>
+  <transaction-demarcation mode="local"/>
+</jdo-conf>
